@@ -1,0 +1,30 @@
+
+close all clc
+
+%%
+%generate a random path as initial path Path_Orignal = importdata('tsp.txt'); randIndex=randperm(length(Path_Orignal)); TSP_Path = Path_Orignal(randIndex, :);
+%set up initial distance Shorest=520;
+%geneator matrix for store data. SD=zeros(1,10000);
+
+for i=1:10000
+
+%switch points TSP_Path; NEW_TSP=zeros(2,1000); NEW_TSP=TSP_Path;
+firstswitch=randperm(1000,1); secondswitch=randperm(1000,1); mid=NEW_TSP(secondswitch); NEW_TSP(secondswitch)=NEW_TSP(firstswitch); NEW_TSP(firstswitch)=mid;
+
+x=NEW_TSP(:,1);
+y=NEW_TSP(:,2);
+
+%record data & initialized data; SD(i)=Shorest;
+twopointdis=0;
+Distance=0;
+
+%distance calculation for j=1:999
+twopointdis= sqrt((x(j+1)-x(j))^2) +((y(j+1)-y(j)^2)); Distance=Distance+twopointdis;
+end
+
+%selection
+if Distance<Shorest Shorest = Distance; TSP_Path=NEW_TSP;
+disp(Shorest)
+end
+
+end
