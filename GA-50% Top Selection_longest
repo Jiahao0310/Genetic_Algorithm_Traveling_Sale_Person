@@ -1,6 +1,4 @@
 
-
-%HW_01_Hill_GA_Jiahao_Wu clearvars
 close all clc
 % set up initial population(path) and its distance
 %%
