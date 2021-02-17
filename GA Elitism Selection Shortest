@@ -1,0 +1,83 @@
+%HW_01_Hill_GA_Jiahao_Wu clearvars
+close all clc
+% set up initial population(path) and its distance
+%%
+%set 20 as population number
+for i = 1:20 %get initial population Path_Orignal = importdata('tsp.txt');
+randIndex=randperm(length(Path_Orignal)); %random path TSP_Path = Path_Orignal(randIndex, :); Population{i}=TSP_Path ;
+end
+C_Rate=1; %crossover rate = 1, all of individual will crossover New_Pop=cell(1,5); %next generation
+New_Pop2=cell(1,5);%next generation A=[];
+B=[];
+c=[];
+d=[];
+get_F=zeros(20,1); M_Rate=0.8; %mutation rate Rateofselect=zeros(10,1); NextGen=cell(1,10);
+Distances=zeros(10000,1); %seleced individual after selection Shorest_Record1=zeros(10000,1); %record best restults Shorest_dis=490; %initial distance assume
+
+%%
+for e=1:10000	%run 10000 evoluation
+
+P1=zeros(1000,2);
+P2=zeros(1000,2);
+temp_1=zeros(1500,2); temp_2=zeros(1000,2); temp_3=zeros(1500,2); temp_4=zeros(1000,2); P3=zeros(1000,2);
+c=zeros(20,1); d=zeros(10,1);
+%% Distance
+for q =1:20 TSP_Path=Population{q}; x=TSP_Path(:,1);%(x,y) y=TSP_Path(:,2); twopointdis=0;
+RSD=0;
+for j=1:999 %calculate the path distance
+twopointdis= sqrt((x(j+1)-x(j))^2) +((y(j+1)-y(j)^2)); RSD = RSD+twopointdis;
+end
+Distances(q)=RSD; %compared between currnet and shorest distance if RSD<Shorest_dis
+Shorest_dis= RSD;
+end end
+disp(Shorest_dis)
+Shorest_Record1(e)=Shorest_dis; %record shorest distance
+
+for i = 1:20 %calculate fitness Finitness = (1/Distances(i))*1000; get_F(i)=Finitness;
+end
+ 	%% selection
+
+for i=1:20 %to find ratio of fitness for better selection rate=get_F(i)/sum(get_F);
+Rateofselect(i)=rate;
+ 
+end
+
+c=sort(Rateofselect); d=c(1:10);
+% this method is to select top 50% of population for next gen crossover for i=1:20
+if Rateofselect(i)>d(:) NextGen(i)=Population(i);
+end
+end
+NextGen(cellfun(@isempty,NextGen))=[];
+
+% find two parents from best selection list. for z=1:10
+% here i will make everyone as parents, which means crossover rate
+% is =1
+if rand(1)<C_Rate %take half of gen from p1 and half of gen from p2 pos1=NextGen(randi(numel(NextGen)));
+P1=cell2mat(pos1); pos=NextGen(randi(numel(NextGen))); P2=cell2mat(pos);
+
+P1_L=P1(1:500,:);
+P2_L=P2(1:500,:);
+
+temp_1=setdiff(P2, P1_L,'rows','stable'); temp_2=[P1_L;temp_1];
+
+temp_3=setdiff(P1, P2_L,'rows','stable'); temp_4=[P2_L;temp_3];
+
+end New_Pop{z}=temp_2; New_Pop2{z}=temp_4; P1=zeros(1000,2); P2=zeros(1000,2);
+temp_1=zeros(1500,2); temp_2=zeros(1000,2); temp_3=zeros(1500,2); temp_4=zeros(1000,2); end
+Population= [New_Pop,New_Pop2]; %generator new population
+
+ 	%Mutation
+ 		%switch 100 of (x,y) points for mutation for i=1:20
+if rand(1)<=M_Rate
+%P3=[];
+P3=cell2mat(Population(i)); A=randperm(1000,100); B=randperm(1000,100); mid=P3(B);
+P3(B)=P3(A);
+P3(A)=mid;
+Population{i}=P3;
+end P3=zeros(1000,2);
+
+end
+ 
+
+
+end
