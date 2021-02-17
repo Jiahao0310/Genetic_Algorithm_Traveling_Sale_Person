@@ -1,0 +1,25 @@
+clearvars
+close all clc
+
+%%
+Path_Orignal = importdata('tsp.txt'); Shorest_Distance=520;
+a=0;
+Shortest_Data01=zeros(1,a); for a = 1:10000
+Shortest_Data(a)=Shorest_Distance; randIndex=randperm(length(Path_Orignal)); generate random path TSP_Path = Path_Orignal(randIndex, :);
+x1=TSP_Path(:,1); y1=TSP_Path(:,2);
+twopointdis=0;
+RSD=0;
+for j=1:999 %calculate the distance
+twopointdis= sqrt((x1(j+1)-x1(j))^2) +((y1(j+1)-y1(j)^2)); RSD = RSD+twopointdis;
+ 
+
+
+
+end
+ 
+end
+if RSD < Shorest_Distance	%check if new distance shorter than current shortest Shorest_Distance = RSD;
+end
+ 
+Shortest_Data01 = Shortest_Data';
+
